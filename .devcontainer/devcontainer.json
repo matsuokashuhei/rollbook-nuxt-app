@@ -3,7 +3,12 @@
     "image": "node:13",
     "runArgs": [
         "-v",
-        "${env:HOME}/.config/git/config:/root/.gitconfig"
+        "${env:HOME}/.config/git/config:/root/.gitconfig",
+        "--env-file",
+        ".devcontainer/devcontainer.env"
+    ],
+    "appPort": [
+        3000
     ],
     "extensions": [
         "dbaeumer.vscode-eslint",
