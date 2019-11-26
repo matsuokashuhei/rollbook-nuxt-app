@@ -1,0 +1,22 @@
+// https://code.visualstudio.com/docs/remote/containers#_devcontainerjson-reference
+{
+    "image": "node:13",
+    "runArgs": [
+        "-v",
+        "${env:HOME}/.config/git/config:/root/.gitconfig"
+    ],
+    "extensions": [
+        "dbaeumer.vscode-eslint",
+        "VisualStudioExptTeam.vscodeintellicode"
+    ],
+    "settings": {
+        "editor.dragAndDrop": false,
+        "editor.formatOnSave": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        "workbench.editor.enablePreview": false,
+        "workbench.editor.enablePreviewFromQuickOpen": false,
+        "terminal.integrated.automationShell.linux": "/bin/bash"
+    }
+}
