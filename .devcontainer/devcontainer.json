@@ -1,27 +1,35 @@
 // https://code.visualstudio.com/docs/remote/containers#_devcontainerjson-reference
 {
-    "image": "node:13",
-    "runArgs": [
-        "-v",
-        "${env:HOME}/.config/git/config:/root/.gitconfig",
-        "--env-file",
-        ".devcontainer/devcontainer.env"
-    ],
-    "appPort": [
-        3000
-    ],
-    "extensions": [
-        "dbaeumer.vscode-eslint",
-        "VisualStudioExptTeam.vscodeintellicode"
-    ],
-    "settings": {
-        "editor.dragAndDrop": false,
-        "editor.formatOnSave": true,
-        "files.insertFinalNewline": true,
-        "files.trimFinalNewlines": true,
-        "files.trimTrailingWhitespace": true,
-        "workbench.editor.enablePreview": false,
-        "workbench.editor.enablePreviewFromQuickOpen": false,
-        "terminal.integrated.automationShell.linux": "/bin/bash"
-    }
+  "image": "node:13",
+  "runArgs": [
+    "-v",
+    "${env:HOME}/.netrc:/root/.netrc",
+    "-v",
+    "${env:HOME}/.config/git/config:/root/.gitconfig",
+    "--env-file",
+    ".devcontainer/devcontainer.env"
+  ],
+  "appPort": [3000],
+  "extensions": [
+    "dariofuzinato.vue-peek",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "octref.vetur",
+    "VisualStudioExptTeam.vscodeintellicode"
+  ],
+  "settings": {
+    "editor.dragAndDrop": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSaveTimeout": 3000,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "terminal.integrated.automationShell.linux": "/bin/bash",
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false
+  }
 }
