@@ -15,6 +15,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "mhutchie.git-graph",
+    "mikestead.dotenv",
     "octref.vetur",
     "VisualStudioExptTeam.vscodeintellicode"
   ],
