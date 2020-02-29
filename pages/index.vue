@@ -20,12 +20,10 @@ export default {
       signedIn: false,
       authConfig: {
         signUpConfig: {
-          header: 'My Customized Sign Up',
           hideAllDefaults: true,
-          defaultCountryCode: '81',
           signUpFields: [
             {
-              label: 'Email',
+              label: 'Username',
               key: 'username',
               required: true,
               displayOrder: 1,
