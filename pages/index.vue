@@ -1,48 +1,72 @@
 <template>
   <div class="container">
-    <a v-if="$auth.loggedIn" @click="$auth.logout()">Sign Off</a>
-    <a v-else @click="$auth.loginWith('auth0')">Sign In</a>
+    <!-- <img class="logo" src="../assets/logo.png" alt="Nuxt Amplify Auth Starter" /> -->
+    <div v-if="!signedIn">
+      <amplify-authenticator :auth-config="authConfig" />
+    </div>
+    <div v-else>
+      <amplify-sign-out />
+    </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { Auth } from 'aws-amplify'
+import { AmplifyEventBus } from 'aws-amplify-vue'
+
+export default {
+  data() {
+    return {
+      signedIn: false,
+      authConfig: {
+        signUpConfig: {
+          header: 'My Customized Sign Up',
+          hideAllDefaults: true,
+          defaultCountryCode: '81',
+          signUpFields: [
+            {
+              label: 'Email',
+              key: 'username',
+              required: true,
+              displayOrder: 1,
+              type: 'string',
+              signUpWith: true
+            },
+            {
+              label: 'Password',
+              key: 'password',
+              required: true,
+              displayOrder: 2,
+              type: 'password'
+            }
+          ]
+        }
+      }
+    }
+  },
+  created() {
+    this.findUser()
+
+    AmplifyEventBus.$on('authState', (info) => {
+      if (info === 'signedIn') {
+        this.findUser()
+      } else {
+        this.signedIn = false
+      }
+    })
+  },
+  methods: {
+    async findUser() {
+      try {
+        const user = await Auth.currentAuthenticatedUser()
+        this.signedIn = true
+        console.log(user)
+      } catch (err) {
+        this.signedIn = false
+      }
+    }
+  }
+}
 </script>
 
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
+<style></style>

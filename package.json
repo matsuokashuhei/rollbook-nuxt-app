@@ -12,9 +12,13 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@nuxtjs/auth": "^4.8.5",
     "@nuxtjs/axios": "^5.3.6",
-    "nuxt": "^2.0.0"
+    "@types/graphql": "^14.5.0",
+    "@types/zen-observable": "^0.8.0",
+    "aws-amplify": "^2.2.5",
+    "aws-amplify-vue": "^1.1.4",
+    "nuxt": "^2.0.0",
+    "remove": "^0.1.5"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.5.6",

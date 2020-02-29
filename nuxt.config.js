@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '~/plugins/aws-amplify.js', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -43,23 +43,8 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://auth.nuxtjs.org
-    '@nuxtjs/auth'
+    '@nuxtjs/axios'
   ],
-  auth: {
-    redirect: {
-      login: '/',
-      callback: '/auth/signed-in'
-    },
-    strategies: {
-      local: false,
-      auth0: {
-        domain: process.env.AUTH0_DOMAIN,
-        client_id: process.env.AUTH0_CLIENT_ID
-      }
-    }
-  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -73,5 +58,10 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  env: {
+    AWS_REGION: process.env.AWS_REGION,
+    AWS_COGNITO_USER_POOL_ID: process.env.AWS_COGNITO_USER_POOL_ID,
+    AWS_COGNITO_USER_POOL_CLIENT_ID: process.env.AWS_COGNITO_USER_POOL_CLIENT_ID
   }
 }
