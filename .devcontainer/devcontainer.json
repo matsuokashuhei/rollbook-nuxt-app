@@ -10,6 +10,7 @@
     ".devcontainer/devcontainer.env"
   ],
   "appPort": [3000],
+  "appPort": [3000, 9229],
   "extensions": [
     "dariofuzinato.vue-peek",
     "dbaeumer.vscode-eslint",
