@@ -27,7 +27,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/aws-amplify.js', mode: 'client' }],
+  plugins: [
+    { src: '~/plugins/aws-amplify.js', mode: 'client' }
+    // '~/plugins/axios'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -44,12 +47,18 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios'
+    // '@nuxtjs/proxy'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost'
+  },
+  // axios: {
+  //   proxy: true
+  // },
   /*
    ** Build configuration
    */
@@ -63,5 +72,12 @@ export default {
     AWS_REGION: process.env.AWS_REGION,
     AWS_COGNITO_USER_POOL_ID: process.env.AWS_COGNITO_USER_POOL_ID,
     AWS_COGNITO_USER_POOL_CLIENT_ID: process.env.AWS_COGNITO_USER_POOL_CLIENT_ID
+  },
+  router: {
+    middleware: 'auth'
   }
+  // proxy: {
+  //   // '/api/': 'http://127.0.0.1/api/'
+  //   '/api/': { target: 'http://localhost', pathRewrite: { '^/api/': '/' } }
+  // }
 }

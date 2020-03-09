@@ -1,68 +1,76 @@
 <template>
-  <div class="container">
-    <!-- <img class="logo" src="../assets/logo.png" alt="Nuxt Amplify Auth Starter" /> -->
-    <div v-if="!signedIn">
-      <amplify-authenticator :auth-config="authConfig" />
-    </div>
-    <div v-else>
+  <div class="container mx-auto">
+    <div class="min-h-screen flex items-center justify-center">
+      <button @click="signOut">サインアウト</button>
       <amplify-sign-out />
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
-import { Auth } from 'aws-amplify'
 import { AmplifyEventBus } from 'aws-amplify-vue'
+import { Auth } from 'aws-amplify'
+// import { axios } from 'axios'
 
 export default {
   data() {
     return {
       signedIn: false,
-      authConfig: {
-        signUpConfig: {
-          hideAllDefaults: true,
-          signUpFields: [
-            {
-              label: 'Username',
-              key: 'username',
-              required: true,
-              displayOrder: 1,
-              type: 'string',
-              signUpWith: true
-            },
-            {
-              label: 'Password',
-              key: 'password',
-              required: true,
-              displayOrder: 2,
-              type: 'password'
-            }
-          ]
-        }
-      }
+      users: []
     }
   },
-  created() {
-    this.findUser()
-
+  async created() {
     AmplifyEventBus.$on('authState', (info) => {
       if (info === 'signedIn') {
-        this.findUser()
+        this.signedIn = true
       } else {
+        this.$router.push('/sign-in')
         this.signedIn = false
       }
     })
+    this.users = await this.fetchUsers()
   },
   methods: {
-    async findUser() {
-      try {
-        const user = await Auth.currentAuthenticatedUser()
-        this.signedIn = true
-        console.log(user)
-      } catch (err) {
-        this.signedIn = false
-      }
+    async signOut(e) {
+      await Auth.signOut({ global: true })
+      this.$router.push('/sign-in')
+    },
+    async fetchUsers() {
+      const session = await Auth.currentSession()
+      console.log(`session: ${JSON.stringify(session)}`)
+      const response = await this.$axios.$get('/api/users', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.accessToken.jwtToken}`
+        }
+      })
+      return response
     }
+    // async findUser() {
+    //   try {
+    //     const user = await Auth.currentAuthenticatedUser()
+    //     this.signedIn = true
+    //     console.log(user)
+    //   } catch (err) {
+    //     this.signedIn = false
+    //   }
+    // }
   }
 }
 </script>
