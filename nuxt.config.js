@@ -23,12 +23,13 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['ant-design-vue/dist/antd.css'],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: '~/plugins/aws-amplify.js', mode: 'client' }
+    '@/plugins/antd-ui',
+    { src: '@/plugins/aws-amplify.js', mode: 'client' }
     // '~/plugins/axios'
   ],
   /*
