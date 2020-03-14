@@ -1,26 +1,5 @@
 <template>
-  <div class="container mx-auto">
-    <div class="min-h-screen flex items-center justify-center">
-      <button @click="signOut">サインアウト</button>
-      <amplify-sign-out />
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <div />
 </template>
 
 <script>
@@ -31,11 +10,14 @@ import { Auth } from 'aws-amplify'
 export default {
   data() {
     return {
+      header: {
+        title: 'TOP'
+      },
       signedIn: false,
-      users: []
+      discussions: []
     }
   },
-  async created() {
+  created() {
     AmplifyEventBus.$on('authState', (info) => {
       if (info === 'signedIn') {
         this.signedIn = true
@@ -44,23 +26,25 @@ export default {
         this.signedIn = false
       }
     })
-    this.users = await this.fetchUsers()
+    // this.discussions = await this.fetchDiscussions()
+  },
+  mounted() {
+    this.updateHeader()
   },
   methods: {
-    async signOut(e) {
-      await Auth.signOut({ global: true })
-      this.$router.push('/sign-in')
-    },
-    async fetchUsers() {
+    async fetchDiscussions() {
       const session = await Auth.currentSession()
       console.log(`session: ${JSON.stringify(session)}`)
-      const response = await this.$axios.$get('/api/users', {
+      const response = await this.$axios.$get('/api/discussions', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${session.accessToken.jwtToken}`
         }
       })
       return response
+    },
+    updateHeader() {
+      this.$nuxt.$emit('updateHeader', this.header.title)
     }
     // async findUser() {
     //   try {

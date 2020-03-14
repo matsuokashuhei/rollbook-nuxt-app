@@ -1,8 +1,10 @@
 <template>
-  <div class="container mx-auto">
-    <div class="min-h-screen flex items-center justify-center">
-      <amplify-authenticator :auth-config="authConfig" />
-    </div>
+  <div>
+    <a-row type="flex">
+      <a-col :span="12" :justify="center">
+        <amplify-authenticator :auth-config="authConfig" />
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -10,6 +12,7 @@
 import { AmplifyEventBus } from 'aws-amplify-vue'
 
 export default {
+  layout: 'auth',
   data() {
     return {
       authConfig: {
