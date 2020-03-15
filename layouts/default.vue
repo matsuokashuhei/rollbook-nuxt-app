@@ -18,8 +18,14 @@
               shape="circle"
               icon="poweroff"
               :size="large"
-              @click="showConfirm"
-            ></a-button>
+              @click="showModal"
+            />
+            <a-modal
+              title="ログアウトしますか？"
+              :visible="visible"
+              @ok="handleOK"
+              @cancel="handleCancel"
+            >ログアウトする場合は OK を、そうではない場合は Cancel を選んでください。</a-modal>
           </a-col>
         </a-row>
       </a-layout-header>
@@ -39,9 +45,7 @@
         >
           <nuxt />
         </a-layout-content>
-        <a-layout-footer style="text-align: center">
-          株式会社ネームレスプロダクション ©2020
-        </a-layout-footer>
+        <a-layout-footer style="text-align: center">株式会社ネームレスプロダクション ©2020</a-layout-footer>
       </a-layout>
     </a-layout>
   </a-layout>
@@ -54,25 +58,39 @@ export default {
   data() {
     return {
       // size: 'large'
+      visible: false
     }
   },
   created() {
     this.setListener()
   },
   methods: {
+    showModal() {
+      this.visible = true
+    },
+    async handleOK(e) {
+      await Auth.signOut({ global: true })
+      this.$router.push('/sign-in')
+    },
+    handleCancel(e) {
+      this.visible = false
+    },
     showConfirm() {
       this.$confirm({
         title: 'ログアウトしますか？',
         content:
           'ログアウトする場合は OK を、そうではない場合は Cancel を選んでください。',
         onOk() {
-          this.signOut()
+          Auth.signOut({ global: true }).then((reason) => {
+            this.$router.push('/sign-in')
+          })
+          // this.signOut()
         },
         onCancel() {}
       })
     },
-    async signOut() {
-      await Auth.signOut({ global: true })
+    signOut() {
+      Auth.signOut({ global: true })
       this.$router.push('/sign-in')
     },
     setListener() {

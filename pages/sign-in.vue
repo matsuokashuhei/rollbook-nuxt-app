@@ -1,10 +1,6 @@
 <template>
   <div>
-    <a-row type="flex">
-      <a-col :span="12" :justify="center">
-        <amplify-authenticator :auth-config="authConfig" />
-      </a-col>
-    </a-row>
+    <amplify-authenticator :auth-config="authConfig" />
   </div>
 </template>
 
