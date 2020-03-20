@@ -12,21 +12,7 @@
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
         <a-row type="flex" justify="end" align="middle">
-          <a-col>
-            <a-button
-              type="primary"
-              shape="circle"
-              icon="poweroff"
-              :size="large"
-              @click="showModal"
-            />
-            <a-modal
-              title="ログアウトしますか？"
-              :visible="visible"
-              @ok="handleOK"
-              @cancel="handleCancel"
-            >ログアウトする場合は OK を、そうではない場合は Cancel を選んでください。</a-modal>
-          </a-col>
+          <LogoutButton />
         </a-row>
       </a-layout-header>
       <a-layout style="padding: 0 24px 24px">
@@ -52,47 +38,19 @@
 </template>
 
 <script>
-import { Auth } from 'aws-amplify'
+import LogoutButton from '~/components/LogoutButton'
 
 export default {
+  components: {
+    LogoutButton: LogoutButton
+  },
   data() {
-    return {
-      // size: 'large'
-      visible: false
-    }
+    return {}
   },
   created() {
     this.setListener()
   },
   methods: {
-    showModal() {
-      this.visible = true
-    },
-    async handleOK(e) {
-      await Auth.signOut({ global: true })
-      this.$router.push('/sign-in')
-    },
-    handleCancel(e) {
-      this.visible = false
-    },
-    showConfirm() {
-      this.$confirm({
-        title: 'ログアウトしますか？',
-        content:
-          'ログアウトする場合は OK を、そうではない場合は Cancel を選んでください。',
-        onOk() {
-          Auth.signOut({ global: true }).then((reason) => {
-            this.$router.push('/sign-in')
-          })
-          // this.signOut()
-        },
-        onCancel() {}
-      })
-    },
-    signOut() {
-      Auth.signOut({ global: true })
-      this.$router.push('/sign-in')
-    },
     setListener() {
       this.$nuxt.$on('updateHeader', this.setHeader)
     },
