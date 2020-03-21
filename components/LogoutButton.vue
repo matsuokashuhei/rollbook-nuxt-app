@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-button type="primary" shape="circle" icon="poweroff" :size="large" @click="showConfirm" />
+    <a-button type="primary" shape="circle" icon="poweroff" @click="showConfirm" />
     <a-modal
       title="ログアウトしますか？"
       :visible="visible"

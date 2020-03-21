@@ -1,6 +1,8 @@
 <template>
   <a-layout>
-    <nuxt />
+    <a-layout-content>
+      <nuxt />
+    </a-layout-content>
   </a-layout>
 </template>
 

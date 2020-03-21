@@ -1,19 +1,21 @@
 <template>
   <a-layout>
-    <a-layout-sider v-model="collapsed" collapsible>
+    <a-layout-sider collapsible>
       <div class="logo" />
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
         <a-menu-item key="1">
           <a-icon type="user" />
           <span>user</span>
         </a-menu-item>
+        <a-menu-item key="2">
+          <a-icon type="team" />
+          <span>team</span>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
-        <a-row type="flex" justify="end" align="middle">
-          <LogoutButton />
-        </a-row>
+      <a-layout-header>
+        <Header />
       </a-layout-header>
       <a-layout style="padding: 0 24px 24px">
         <a-breadcrumb style="margin: 16px 0">
@@ -31,18 +33,18 @@
         >
           <nuxt />
         </a-layout-content>
-        <a-layout-footer style="text-align: center">株式会社ネームレスプロダクション ©2020</a-layout-footer>
+        <a-layout-footer style="text-align: center">matsuokashuhei ©2020</a-layout-footer>
       </a-layout>
     </a-layout>
   </a-layout>
 </template>
 
 <script>
-import LogoutButton from '~/components/LogoutButton'
+import Header from '~/components/Header'
 
 export default {
   components: {
-    LogoutButton: LogoutButton
+    Header: Header
   },
   data() {
     return {}

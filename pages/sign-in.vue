@@ -1,6 +1,10 @@
 <template>
   <div>
-    <amplify-authenticator :auth-config="authConfig" />
+    <a-row justify="center">
+      <a-col align="middle">
+        <amplify-authenticator :auth-config="authConfig" />
+      </a-col>
+    </a-row>
   </div>
 </template>
 
