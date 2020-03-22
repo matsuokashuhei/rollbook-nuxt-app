@@ -12,7 +12,7 @@
 import { AmplifyEventBus } from 'aws-amplify-vue'
 
 export default {
-  layout: 'auth',
+  layout: 'before-authentication',
   data() {
     return {
       authConfig: {
