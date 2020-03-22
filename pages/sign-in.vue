@@ -1,52 +1,81 @@
 <template>
-  <div>
-    <a-row justify="center">
-      <a-col align="middle">
-        <amplify-authenticator :auth-config="authConfig" />
-      </a-col>
-    </a-row>
-  </div>
+  <a-form layout="inline" :form="form" @submit="handleSubmit">
+    <a-form-item :validate-status="userNameError() ? 'error' : ''" :help="userNameError() || ''">
+      <a-input
+        v-decorator="[
+          'username',
+          { rules: [{ required: true, message: 'Please input your username!' }] },
+        ]"
+        placeholder="Username"
+      >
+        <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+      </a-input>
+    </a-form-item>
+    <a-form-item :validate-status="passwordError() ? 'error' : ''" :help="passwordError() || ''">
+      <a-input
+        v-decorator="[
+          'password',
+          { rules: [{ required: true, message: 'Please input your Password!' }] },
+        ]"
+        type="password"
+        placeholder="Password"
+      >
+        <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+      </a-input>
+    </a-form-item>
+    <a-form-item>
+      <a-button
+        type="primary"
+        html-type="submit"
+        :disabled="hasErrors(form.getFieldsError())"
+      >Log in</a-button>
+    </a-form-item>
+  </a-form>
 </template>
 
 <script>
-import { AmplifyEventBus } from 'aws-amplify-vue'
+import { Auth } from 'aws-amplify'
+
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some((field) => fieldsError[field])
+}
 
 export default {
   layout: 'before-authentication',
   data() {
     return {
-      authConfig: {
-        signUpConfig: {
-          hideAllDefaults: true,
-          signUpFields: [
-            {
-              label: 'Username',
-              key: 'username',
-              required: true,
-              displayOrder: 1,
-              type: 'string',
-              signUpWith: true
-            },
-            {
-              label: 'Password',
-              key: 'password',
-              required: true,
-              displayOrder: 2,
-              type: 'password'
-            }
-          ]
-        }
-      }
+      hasErrors,
+      form: this.$form.createForm(this, { name: 'horizontal_login' })
     }
   },
-  created() {
-    AmplifyEventBus.$on('authState', (info) => {
-      if (info === 'signedIn') {
-        this.$router.push('/')
-      }
+  mounted() {
+    this.$nextTick(() => {
+      // To disabled submit button at the beginning.
+      this.form.validateFields()
     })
+  },
+  methods: {
+    // Only show error after a field is touched.
+    userNameError() {
+      const { getFieldError, isFieldTouched } = this.form
+      return isFieldTouched('userName') && getFieldError('userName')
+    },
+    // Only show error after a field is touched.
+    passwordError() {
+      const { getFieldError, isFieldTouched } = this.form
+      return isFieldTouched('password') && getFieldError('password')
+    },
+    handleSubmit(e) {
+      e.preventDefault()
+      this.form.validateFields(async (err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+          const user = await Auth.signIn(values.username, values.password)
+          console.log(user)
+          this.$router.push('/')
+        }
+      })
+    }
   }
 }
 </script>
-
-<style></style>
