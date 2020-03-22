@@ -1,17 +1,7 @@
 <template>
   <a-layout>
     <a-layout-sider collapsible>
-      <div class="logo" />
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
-        <a-menu-item key="1">
-          <a-icon type="user" />
-          <span>user</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <a-icon type="team" />
-          <span>team</span>
-        </a-menu-item>
-      </a-menu>
+      <SideBar />
     </a-layout-sider>
     <a-layout>
       <a-layout-header>
@@ -41,10 +31,12 @@
 
 <script>
 import Header from '~/components/Header'
+import SideBar from '~/components/SideBar'
 
 export default {
   components: {
-    Header: Header
+    Header: Header,
+    SideBar: SideBar
   },
   data() {
     return {}
