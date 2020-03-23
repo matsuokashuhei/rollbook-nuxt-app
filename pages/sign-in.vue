@@ -41,7 +41,7 @@ function hasErrors(fieldsError) {
 }
 
 export default {
-  layout: 'before-authentication',
+  layout: 'before-auth',
   data() {
     return {
       hasErrors,
