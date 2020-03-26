@@ -75,7 +75,7 @@ export default {
     AWS_COGNITO_USER_POOL_CLIENT_ID: process.env.AWS_COGNITO_USER_POOL_CLIENT_ID
   },
   router: {
-    middleware: 'auth'
+    middleware: ['auth-state', 'auth']
   }
   // proxy: {
   //   // '/api/': 'http://127.0.0.1/api/'
