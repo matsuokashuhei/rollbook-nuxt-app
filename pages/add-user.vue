@@ -58,7 +58,7 @@ export default {
         if (error) {
           return
         }
-        this.loading = true
+        this.setLoading()
         try {
           const response = await this.$axios.$post('/api/users', {
             user: {
@@ -75,6 +75,11 @@ export default {
           this.loading = false
         }
       })
+    },
+    setLoading() {
+      this.message = ''
+      this.errors = []
+      this.loading = true
     }
   }
 }
