@@ -20,7 +20,7 @@ export default {
     handleClick(e) {
       console.log(`e.key: ${e.key}`)
       if (e.key === '1') {
-        this.$router.push('/')
+        this.$router.push('/users/')
       }
     }
   }
