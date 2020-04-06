@@ -7,7 +7,11 @@
     </a-row>
     <a-row>
       <a-col>
-        <a-table :columns="columns" :loading="loading" :dataSource="users"></a-table>
+        <a-table :columns="columns" :loading="loading" :dataSource="users">
+          <template slot="name" slot-scope="text, record">
+            <nuxt-link :to="{ path: `${record.key}` }">{{text}}</nuxt-link>
+          </template>
+        </a-table>
       </a-col>
     </a-row>
   </div>
@@ -22,8 +26,13 @@ export default {
       loading: true,
       columns: [
         {
+          title: 'ID',
+          dataIndex: 'id'
+        },
+        {
           title: 'name',
-          dataIndex: 'name'
+          dataIndex: 'name',
+          scopedSlots: { customRender: 'name' }
         },
         {
           title: 'email',
@@ -51,6 +60,7 @@ export default {
       this.users = response.map((user) => {
         return {
           key: user.id,
+          id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
