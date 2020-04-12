@@ -71,6 +71,7 @@ export default {
       this.visible = true
     },
     async handleOK(e) {
+      this.visible = false
       e.preventDefault()
       this.setLoading()
       try {
