@@ -1,55 +1,64 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+  <a-layout>
+    <a-layout-sider collapsible>
+      <SideBar />
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header>
+        <Header />
+      </a-layout-header>
+      <a-layout style="padding: 0 24px 24px">
+        <a-breadcrumb style="margin: 16px 0">
+          <a-breadcrumb-item>Home</a-breadcrumb-item>
+          <a-breadcrumb-item>List</a-breadcrumb-item>
+          <a-breadcrumb-item>App</a-breadcrumb-item>
+        </a-breadcrumb>
+        <a-layout-content
+          :style="{
+            margin: '0',
+            padding: '24px',
+            background: '#fff',
+            minHeight: '280px'
+          }"
+        >
+          <nuxt />
+        </a-layout-content>
+        <a-layout-footer style="text-align: center">matsuokashuhei ©2020</a-layout-footer>
+      </a-layout>
+    </a-layout>
+  </a-layout>
 </template>
 
+<script>
+import Header from '~/components/Header'
+import SideBar from '~/components/SideBar'
+
+export default {
+  components: {
+    Header: Header,
+    SideBar: SideBar
+  },
+  data() {
+    return {}
+  },
+  created() {
+    this.setListener()
+  },
+  methods: {
+    setListener() {
+      this.$nuxt.$on('updateHeader', this.setHeader)
+    },
+    setHeader(title) {
+      this.title = title
+    }
+  }
+}
+</script>
+
 <style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+#layout .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
 }
 </style>

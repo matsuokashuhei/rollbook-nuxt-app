@@ -23,11 +23,15 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['ant-design-vue/dist/antd.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    '@/plugins/antd-ui',
+    { src: '@/plugins/aws-amplify.js', mode: 'client' }
+    // '~/plugins/axios'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -35,7 +39,7 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss',
+    // '@nuxtjs/tailwindcss',
     '@nuxt/typescript-build'
   ],
   /*
@@ -43,28 +47,19 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://auth.nuxtjs.org
-    '@nuxtjs/auth'
+    '@nuxtjs/axios'
+    // '@nuxtjs/proxy'
   ],
-  auth: {
-    redirect: {
-      login: '/',
-      callback: '/auth/signed-in'
-    },
-    strategies: {
-      local: false,
-      auth0: {
-        domain: process.env.AUTH0_DOMAIN,
-        client_id: process.env.AUTH0_CLIENT_ID
-      }
-    }
-  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost'
+  },
+  // axios: {
+  //   proxy: true
+  // },
   /*
    ** Build configuration
    */
@@ -73,5 +68,17 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  env: {
+    AWS_REGION: process.env.AWS_REGION,
+    AWS_COGNITO_USER_POOL_ID: process.env.AWS_COGNITO_USER_POOL_ID,
+    AWS_COGNITO_USER_POOL_CLIENT_ID: process.env.AWS_COGNITO_USER_POOL_CLIENT_ID
+  },
+  router: {
+    middleware: ['auth-state', 'auth']
   }
+  // proxy: {
+  //   // '/api/': 'http://127.0.0.1/api/'
+  //   '/api/': { target: 'http://localhost', pathRewrite: { '^/api/': '/' } }
+  // }
 }
